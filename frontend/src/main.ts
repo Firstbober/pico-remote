@@ -7,7 +7,7 @@ import Sortable from 'sortablejs';
 
 import './style.css'
 import { addButton, ButtonColor, getMacros, getPresetNames, loadPresets, updatePreset, v1_commands_json, v1_devices_json, type Button } from './data';
-import { fillOutCommandsAndDevices, fillOutPresets, setupEditorElementsTab } from './elements';
+import { fillOutCommandsAndDevices, fillOutPresets, setupEditorElementsTab } from './editor/elements';
 
 var grid = GridStack.init({
   column: 4,

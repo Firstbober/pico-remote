@@ -1,5 +1,5 @@
 import type { GridStack } from "gridstack";
-import { addButton, ButtonColor, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, SupportedIcons, type Binds, type Button, type Macro, type Preset, type V1Commands, type V1Device, type V1Devices } from "./data";
+import { addButton, ButtonColor, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, SupportedIcons, type Binds, type Button, type Macro, type Preset, type V1Commands, type V1Device, type V1Devices } from "../data";
 
 export function setupEditorElementsTab(commands: V1Commands, devices: V1Devices, grid: GridStack) {
     setupCommandsTab(devices, commands, grid);
