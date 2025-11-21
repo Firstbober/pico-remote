@@ -1,0 +1,261 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #121212;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.editor {
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  background-color: #363636;
+  margin-left: auto;
+  margin-right: auto;
+
+  max-width: 99%;
+  height: 50vh;
+
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+
+  box-shadow: 0px -6px 24px 0px rgba(0, 0, 0, 1);
+
+  z-index: 1000;
+}
+
+.grid-stack {
+  max-width: 400px;
+  height: 100%;
+  margin: 6px;
+
+  margin-bottom: 80vh;
+
+  --gs-item-margin-top: 5px !important;
+  --gs-item-margin-bottom: 5px !important;
+  --gs-item-margin-left: 5px !important;
+  --gs-item-margin-right: 5px !important;
+}
+
+.grid-stack .tile.trash-active:nth-child(2n) {
+  animation-name: wiggle-kf-1;
+  animation-iteration-count: infinite;
+  transform-origin: 50% 10%;
+}
+
+.grid-stack .tile.trash-active:nth-child(2n-1) {
+  animation-name: wiggle-kf-2;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  transform-origin: 30% 5%;
+}
+
+@keyframes wiggle-kf-1 {
+  0% {
+    transform: rotate(-1deg);
+    animation-timing-function: ease-in;
+  }
+
+  50% {
+    transform: rotate(1.5deg);
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes wiggle-kf-2 {
+  0% {
+    transform: rotate(1deg);
+    animation-timing-function: ease-in;
+  }
+
+  50% {
+    transform: rotate(-1.5deg);
+    animation-timing-function: ease-out;
+  }
+}
+
+.grid-stack-item-content {
+  background-color: #EFEDE5;
+  color: black;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-stack-placeholder>.placeholder-content {
+  background-color: rgb(239, 237, 229, 0.1);
+}
+
+.editor>sl-tab-group>button {
+  background: none;
+  outline: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  width: auto;
+}
+
+.editor>sl-tab-group>button.trash {
+  margin-left: auto;
+}
+
+.editor>sl-tab-group>button.trash.trash-active {
+  background: #b45a5a;
+  color: black;
+}
+
+.editor>sl-tab-group>button.close {
+  border-top-right-radius: 12px;
+}
+
+.editor>sl-tab-group>button:hover {
+  background: #242424;
+}
+
+.editor sl-tab-panel {
+  padding: 0;
+  --padding: 0;
+  max-width: 99%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.editor sl-tab-panel>div {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 8px;
+  min-height: 20vh;
+}
+
+.editor sl-tab-panel>div .add {
+  margin-top: 4em;
+}
+
+.editor .macro-selector {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.editor .macro-selector sl-select {
+  width: 100%;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.editor .macro-selector button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1 / 1;
+}
+
+.editor #macro-editor-elements {
+  overflow-y: auto;
+  max-height: 20vh;
+  background-color: #242424;
+  border-radius: 4px;
+  border: 1px solid gray;
+  list-style: none;
+  padding: 0;
+}
+
+.editor #macro-editor-elements li:nth-child(2n) {
+  background-color: #363636;
+}
+
+.editor #macro-editor-elements li {
+  display: flex;
+  align-items: center;
+  padding: 0.5em;
+  gap: 1em;
+}
+
+.editor #macro-editor-elements li span {
+  text-overflow: ellipsis;
+  max-width: 70vw;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.editor #macro-editor-elements li .remove {
+  margin-left: auto;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  background: none;
+  aspect-ratio: 1 / 1;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor #macro-editor-elements li .remove:hover {
+  background: #b45a5a;
+}
+
+.editor .command-selector {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.editor .command-selector button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1 / 1;
+  margin-left: 0.5em;
+}
+
+.editor .preset-selector {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.editor .preset-selector button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1 / 1;
+  margin-right: 0.5em;
+}
+
+.editor .preset-selector sl-select {
+  width: 100%;
+}
+
+.editor .color-icon-selector {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 0.5em;
+}
+
+#editor-elements-commands-icon .icon-select {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}

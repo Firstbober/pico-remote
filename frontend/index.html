@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en" class="sl-theme-dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>frontend</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/dark.css" />
+  <script type="module"
+    src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
+</head>
+
+<body>
+  <div class="grid-stack"></div>
+  <div class="editor">
+    <sl-tab-group>
+      <sl-tab slot="nav" panel="elements">Elements</sl-tab>
+      <sl-tab slot="nav" panel="macros">Macros</sl-tab>
+      <sl-tab slot="nav" panel="presets">Presets</sl-tab>
+      <button slot="nav" class="trash">
+        <iconify-icon icon="material-symbols-light:delete-outline" height="32"></iconify-icon>
+      </button>
+      <button slot="nav" class="close">
+        <iconify-icon icon="material-symbols-light:close-small" height="32"></iconify-icon>
+      </button>
+
+      <sl-tab-panel name="elements">
+        <sl-tab-group>
+          <sl-tab slot="nav" panel="commands">Commands</sl-tab>
+          <sl-tab slot="nav" panel="spacers">Spacers</sl-tab>
+          <sl-tab slot="nav" panel="presets">Presets</sl-tab>
+
+          <sl-tab-panel name="commands">
+            <div>
+              <sl-select label="Device" id="editor-elements-commands-device">
+              </sl-select>
+
+              <sl-select label="Command" id="editor-elements-commands-command">
+              </sl-select>
+
+              <div class="color-icon-selector">
+                <sl-select label="Color" id="editor-elements-commands-color">
+                </sl-select>
+
+                <sl-select label="Icon" id="editor-elements-commands-icon">
+                </sl-select>
+              </div>
+
+              <sl-button class="add" variant="primary" disabled id="editor-elements-commands-add">Add</sl-button>
+            </div>
+          </sl-tab-panel>
+          <sl-tab-panel name="spacers">
+            <div>
+              <sl-input label="Content" id="editor-elements-spacers-content"></sl-input>
+              <sl-button class="add" variant="primary" disabled id="editor-elements-spacers-add">Add</sl-button>
+            </div>
+          </sl-tab-panel>
+          <sl-tab-panel name="presets">
+            <div>
+              <sl-select label="Preset" id="editor-elements-presets-preset">
+              </sl-select>
+
+              <sl-button class="add" variant="primary" disabled id="editor-elements-presets-add">Add</sl-button>
+            </div>
+          </sl-tab-panel>
+        </sl-tab-group>
+      </sl-tab-panel>
+      <sl-tab-panel name="macros">
+        <div>
+          <div class="macro-selector">
+            <button>
+              <iconify-icon icon="material-symbols-light:delete-outline" height="24"></iconify-icon>
+            </button>
+            <sl-select placement="top">
+              <sl-option value="option-1">Option 1</sl-option>
+              <sl-option value="option-2">Option 2</sl-option>
+              <sl-option value="option-3">Option 3</sl-option>
+              <sl-option value="option-4">Option 4</sl-option>
+              <sl-option value="option-5">Option 5</sl-option>
+              <sl-option value="option-6">Option 6</sl-option>
+            </sl-select>
+            <button>
+              <iconify-icon icon="material-symbols-light:add" height="24" part="label"></iconify-icon>
+            </button>
+          </div>
+          <ul id="macro-editor-elements">
+            <li>
+              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
+                class="handle"></iconify-icon>
+              <span>
+                aaaaaaaaaaaaaaaaaaaaaaa
+              </span>
+              <span>
+                Sony DVD aaaaaaaaaaaaaaaa
+              </span>
+              <button class="remove">
+                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
+              </button>
+            </li>
+            <li>
+              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
+                class="handle"></iconify-icon>
+              <span>
+                aaaaaaaaaaaaaaaaaaaaaaa
+              </span>
+              <span>
+                Sony DVD aaaaaaaaaaaaaaaa
+              </span>
+              <button class="remove">
+                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
+              </button>
+            </li>
+            <li>
+              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
+                class="handle"></iconify-icon>
+              cccc
+              <sl-divider vertical></sl-divider>
+              Sony DVD
+              <button class="remove">
+                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
+              </button>
+            </li>
+            <li>
+              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
+                class="handle"></iconify-icon>
+              dddd
+              <sl-divider vertical></sl-divider>
+              Sony Receiver
+              <button class="remove">
+                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
+              </button>
+            </li>
+            <li>
+              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
+                class="handle"></iconify-icon>
+              eeee
+              <sl-divider vertical></sl-divider>
+              Sony Receiver
+              <button class="remove">
+                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
+              </button>
+            </li>
+            <li>
+              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
+                class="handle"></iconify-icon>
+              ffff
+              <sl-divider vertical></sl-divider>
+              Sony Receiver
+              <button class="remove">
+                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
+              </button>
+            </li>
+          </ul>
+          <div class="command-selector">
+            <sl-select placement="top">
+              <sl-option value="option-1">Option 1</sl-option>
+              <sl-option value="option-2">Option 2</sl-option>
+              <sl-option value="option-3">Option 3</sl-option>
+              <sl-option value="option-4">Option 4</sl-option>
+              <sl-option value="option-5">Option 5</sl-option>
+              <sl-option value="option-6">Option 6</sl-option>
+            </sl-select>
+            <sl-select placement="top">
+              <sl-option value="option-1">Option 1</sl-option>
+              <sl-option value="option-2">Option 2</sl-option>
+              <sl-option value="option-3">Option 3</sl-option>
+              <sl-option value="option-4">Option 4</sl-option>
+              <sl-option value="option-5">Option 5</sl-option>
+              <sl-option value="option-6">Option 6</sl-option>
+            </sl-select>
+            <button>
+              <iconify-icon icon="material-symbols-light:add" height="24" part="label"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      </sl-tab-panel>
+      <sl-tab-panel name="presets">
+        <div>
+          <div class="preset-selector">
+            <button>
+              <iconify-icon icon="material-symbols-light:delete-outline" height="24"></iconify-icon>
+            </button>
+            <sl-select placement="top">
+              <sl-option value="option-1">Option 1</sl-option>
+              <sl-option value="option-2">Option 2</sl-option>
+              <sl-option value="option-3">Option 3</sl-option>
+              <sl-option value="option-4">Option 4</sl-option>
+              <sl-option value="option-5">Option 5</sl-option>
+              <sl-option value="option-6">Option 6</sl-option>
+            </sl-select>
+          </div>
+          <sl-input label="Create new preset"></sl-input>
+          <sl-button variant="primary">Create</sl-button>
+        </div>
+      </sl-tab-panel>
+    </sl-tab-group>
+
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
