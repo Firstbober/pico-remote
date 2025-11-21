@@ -53,16 +53,24 @@ export interface Preset {
     bindCounter: number
 }
 
-const currentPreset: Preset = {
-    name: 'default',
-    gridItems: [],
-    binds: {
-        0: {
-            name: 'my_macro',
-            commands: []
-        }
-    },
-    bindCounter: 0
+let currentPreset: Preset = {} as Preset;
+const presets: Preset[] = []
+
+export function loadPresets() {
+    const preset: Preset = {
+        name: 'default',
+        gridItems: [],
+        binds: {
+            0: {
+                name: 'my_macro',
+                commands: []
+            }
+        },
+        bindCounter: 0
+    };
+
+    currentPreset = preset;
+    presets.push(preset);
 }
 
 export function getKeyByValue(object: any, value: any): any {
@@ -104,8 +112,41 @@ export function getMacros(): Binds {
     return Object.values(currentPreset.binds).filter((v) => v.name);
 }
 
+export function setPreset(name: string) {
+    currentPreset = getPresetByName(name)!;
+}
+
+export function getCurrentPreset(): Preset {
+    return currentPreset;
+}
+
+export function updatePreset(grid: GridStack) {
+    currentPreset.gridItems = grid.getGridItems().map(item => {
+        const node = item.gridstackNode!;
+        return {
+            content: JSON.parse(node.content!),
+            w: node.w,
+            h: node.h,
+            x: node.x,
+            y: node.y,
+            minW: node.minW,
+            minH: node.minH,
+            noResize: node.noResize
+        }
+    });
+}
+
 export function getPresetNames(): string[] {
-    return ['default'];
+    return presets.map(p => p.name);
+}
+
+export function getPresetByName(name: string): Preset | undefined {
+    for(const preset of presets) {
+        if(preset.name != name) continue
+        return preset; 
+    }
+
+    return undefined;
 }
 
 export const v1_devices_json: V1Devices = JSON.parse(`[{"annotations": {"64": "Menu >", "61": "Menu +", "62": "Menu -", "219": "Cinema Studio EX", "63": "Menu <", "221": "A.F.D. (Auto Format Direct)"}, "commands": [224, 1, 2, 3, 30, 31, 32, 6, 60, 5, 61, 62, 63, 65, 64, 33, 120, 121, 219, 123, 124, 220, 126, 127, 221, 211], "name": "Sony AV Receiver", "description": "Salon"}, {"annotations": {"324": "Clear / -/- / +10", "321": "Search / Step Fwd / Instant Search", "60": "System Menu / Setup", "68": "Top Menu", "129": "TV / DVD Switch"}, "commands": [92, 1, 2, 3, 94, 95, 96, 7, 97, 98, 99, 322, 321, 320, 323, 60, 61, 62, 63, 65, 66, 64, 68, 69, 151, 152, 153, 154, 155, 156, 157, 158, 159, 150, 324, 5, 352, 350, 290, 351, 353, 129, 354, 355, 90, 91], "name": "Sony DVD Player", "description": "Salon"}]`);

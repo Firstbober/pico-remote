@@ -1,9 +1,51 @@
 import type { GridStack } from "gridstack";
-import { addButton, ButtonColor, getCommandBind, getKeyByValue, getMacros, SupportedIcons, type Binds, type Macro, type Preset, type V1Commands, type V1Device, type V1Devices } from "./data";
+import { addButton, ButtonColor, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, SupportedIcons, type Binds, type Button, type Macro, type Preset, type V1Commands, type V1Device, type V1Devices } from "./data";
 
 export function setupEditorElementsTab(commands: V1Commands, devices: V1Devices, grid: GridStack) {
     setupCommandsTab(devices, commands, grid);
     setupSpacersTab(grid);
+    setupPresetsTab(grid);
+
+}
+
+function setupPresetsTab(grid: GridStack) {
+    const add_button = document.getElementById('editor-elements-presets-add')! as HTMLButtonElement;
+    const preset_select = document.getElementById('editor-elements-presets-preset')! as HTMLSelectElement;
+
+    preset_select.addEventListener('sl-change', _ => {
+        add_button.disabled = !preset_select.value;
+    });
+
+    add_button.addEventListener('click', _ => {
+        const preset = getPresetByName(preset_select.value)!;
+
+        addButton({
+            icon: `Preset: ${preset.name}`,
+            bind: 0,
+            color: ButtonColor.Blue,
+            spacer: true,
+            tooltip: ''
+        }, grid);
+
+        grid.load(preset.gridItems.map((item) => {
+            const content: Button = JSON.parse(JSON.stringify(item.content));
+            if (getCurrentPreset().binds[content.bind] != undefined) {
+                content.bind = getCurrentPreset().bindCounter++;
+            }
+            getCurrentPreset().binds[content.bind] = getCurrentPreset().binds[content.bind]
+
+            return {
+                content: JSON.stringify(content),
+                w: item.w,
+                h: item.h,
+                x: item.x,
+                y: item.y ? item.y + grid.getRow() : item.y,
+                minW: item.minW,
+                minH: item.minH,
+                noResize: item.noResize
+            }
+        }))
+    });
 }
 
 function setupSpacersTab(grid: GridStack) {
@@ -41,7 +83,7 @@ function setupCommandsTab(devices: V1Devices, commands: V1Commands, grid: GridSt
         const should = device_select.value && command_select.value && color_select.value && icon_select.value;
         add_button.disabled = !should;
     }
-    
+
     device_select.addEventListener('sl-change', _ => {
         if (device_select.value == 'macros') {
             command_select.innerHTML = Object.entries(getMacros()).map(entry => {
@@ -122,4 +164,10 @@ export function fillOutCommandsAndDevices(devices: V1Devices) {
     }).join('\n');
 }
 
-export function fillOutPresets(presets: Preset[]) { }
+export function fillOutPresets(presets: string[]) {
+    const preset_select = document.getElementById('editor-elements-presets-preset')! as HTMLSelectElement;
+
+    preset_select.innerHTML = presets.map((preset_name) => {
+        return `<sl-option value="${preset_name}">${preset_name}</sl-option>`;
+    }).join('\n');
+}

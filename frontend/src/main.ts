@@ -6,13 +6,25 @@ import 'tippy.js/dist/tippy.css';
 import Sortable from 'sortablejs';
 
 import './style.css'
-import { addButton, ButtonColor, getMacros, v1_commands_json, v1_devices_json, type Button } from './data';
-import { fillOutCommandsAndDevices, setupEditorElementsTab } from './elements';
+import { addButton, ButtonColor, getMacros, getPresetNames, loadPresets, updatePreset, v1_commands_json, v1_devices_json, type Button } from './data';
+import { fillOutCommandsAndDevices, fillOutPresets, setupEditorElementsTab } from './elements';
 
 var grid = GridStack.init({
   column: 4,
   cellHeight: ((document.body.clientWidth / 4) - 5) / 2
 });
+
+grid.on('added', () => {
+  updatePreset(grid);
+})
+
+grid.on('change', () => {
+  updatePreset(grid);
+})
+
+grid.on('removed', () => {
+  updatePreset(grid);
+})
 
 // grid.setStatic(true);
 
@@ -62,8 +74,8 @@ GridStack.renderCB = (el, w) => {
 }
 
 setTimeout(() => {
-  console.log(grid.save())
-}, 5000);
+  console.log(grid.getGridItems())
+}, 10000);
 
 var el = document.getElementById('macro-editor-elements');
 var sortable = Sortable.create(el!, {
@@ -71,5 +83,7 @@ var sortable = Sortable.create(el!, {
   animation: 150
 });
 
+loadPresets();
 setupEditorElementsTab(v1_commands_json, v1_devices_json, grid);
 fillOutCommandsAndDevices(v1_devices_json);
+fillOutPresets(getPresetNames());
