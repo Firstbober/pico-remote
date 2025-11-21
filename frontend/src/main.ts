@@ -6,8 +6,9 @@ import 'tippy.js/dist/tippy.css';
 import Sortable from 'sortablejs';
 
 import './style.css'
-import { addButton, ButtonColor, getMacros, getPresetNames, loadPresets, updatePreset, v1_commands_json, v1_devices_json, type Button } from './data';
+import { addButton, ButtonColor, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, loadPresets, updatePreset, v1_commands_json, v1_devices_json, type Button } from './data';
 import { fillOutCommandsAndDevices, fillOutPresets, setupEditorElementsTab } from './editor/elements';
+import { setupEditorPresetsTab } from './editor/presets';
 
 var grid = GridStack.init({
   column: 4,
@@ -83,7 +84,16 @@ var sortable = Sortable.create(el!, {
   animation: 150
 });
 
+// Setup
 loadPresets();
 setupEditorElementsTab(v1_commands_json, v1_devices_json, grid);
+setupEditorPresetsTab((preset_name) => {
+  fillOutPresets();
+
+  grid.removeAll(true, false);
+  importPresetIntoGrid(grid, getPresetByName(preset_name)!);
+});
+
+// Fill
 fillOutCommandsAndDevices(v1_devices_json);
-fillOutPresets(getPresetNames());
+fillOutPresets();

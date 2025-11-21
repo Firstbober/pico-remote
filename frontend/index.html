@@ -16,8 +16,8 @@
   <div class="grid-stack"></div>
   <div class="editor">
     <sl-tab-group>
-      <sl-tab slot="nav" panel="elements">Elements</sl-tab>
       <sl-tab slot="nav" panel="macros">Macros</sl-tab>
+      <sl-tab slot="nav" panel="elements">Elements</sl-tab>
       <sl-tab slot="nav" panel="presets">Presets</sl-tab>
       <button slot="nav" class="trash">
         <iconify-icon icon="material-symbols-light:delete-outline" height="32"></iconify-icon>
@@ -179,24 +179,20 @@
       <sl-tab-panel name="presets">
         <div>
           <div class="preset-selector">
-            <button>
+            <button disabled id="editor-presets-remove-preset">
               <iconify-icon icon="material-symbols-light:delete-outline" height="24"></iconify-icon>
             </button>
-            <sl-select placement="top">
-              <sl-option value="option-1">Option 1</sl-option>
-              <sl-option value="option-2">Option 2</sl-option>
-              <sl-option value="option-3">Option 3</sl-option>
-              <sl-option value="option-4">Option 4</sl-option>
-              <sl-option value="option-5">Option 5</sl-option>
-              <sl-option value="option-6">Option 6</sl-option>
+            <sl-select placement="top" id="editor-presets-preset">
             </sl-select>
           </div>
-          <sl-input label="Rename preset"></sl-input>
+          <sl-input label="Rename preset" id="editor-presets-rename-preset"></sl-input>
+
+          <sl-button variant="primary" disabled id="editor-presets-set-preset" disabled>Set preset</sl-button>
 
           <sl-divider style="--color: gray;"></sl-divider>
           
-          <sl-input label="Create new preset"></sl-input>
-          <sl-button variant="primary">Create</sl-button>
+          <sl-input label="Create new preset" id="editor-presets-new-preset-name"></sl-input>
+          <sl-button variant="primary" disabled id="editor-presets-create-preset" disabled>Create</sl-button>
         </div>
       </sl-tab-panel>
     </sl-tab-group>

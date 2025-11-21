@@ -1,11 +1,10 @@
 import type { GridStack } from "gridstack";
-import { addButton, ButtonColor, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, SupportedIcons, type Binds, type Button, type Macro, type Preset, type V1Commands, type V1Device, type V1Devices } from "../data";
+import { addButton, ButtonColor, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, SupportedIcons, type Binds, type Button, type Macro, type Preset, type V1Commands, type V1Device, type V1Devices } from "../data";
 
 export function setupEditorElementsTab(commands: V1Commands, devices: V1Devices, grid: GridStack) {
     setupCommandsTab(devices, commands, grid);
     setupSpacersTab(grid);
     setupPresetsTab(grid);
-
 }
 
 function setupPresetsTab(grid: GridStack) {
@@ -27,24 +26,7 @@ function setupPresetsTab(grid: GridStack) {
             tooltip: ''
         }, grid);
 
-        grid.load(preset.gridItems.map((item) => {
-            const content: Button = JSON.parse(JSON.stringify(item.content));
-            if (getCurrentPreset().binds[content.bind] != undefined) {
-                content.bind = getCurrentPreset().bindCounter++;
-            }
-            getCurrentPreset().binds[content.bind] = getCurrentPreset().binds[content.bind]
-
-            return {
-                content: JSON.stringify(content),
-                w: item.w,
-                h: item.h,
-                x: item.x,
-                y: item.y ? item.y + grid.getRow() : item.y,
-                minW: item.minW,
-                minH: item.minH,
-                noResize: item.noResize
-            }
-        }))
+        importPresetIntoGrid(grid, preset);
     });
 }
 
@@ -164,10 +146,10 @@ export function fillOutCommandsAndDevices(devices: V1Devices) {
     }).join('\n');
 }
 
-export function fillOutPresets(presets: string[]) {
+export function fillOutPresets() {
     const preset_select = document.getElementById('editor-elements-presets-preset')! as HTMLSelectElement;
 
-    preset_select.innerHTML = presets.map((preset_name) => {
+    preset_select.innerHTML = getPresetNames().map((preset_name) => {
         return `<sl-option value="${preset_name}">${preset_name}</sl-option>`;
     }).join('\n');
 }
