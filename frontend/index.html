@@ -14,15 +14,17 @@
 
 <body>
   <div class="grid-stack"></div>
-  <div class="editor">
+  <sl-button style="width: 100%; margin-top: 5em;" disabled id="editor-open">Edit</sl-button>
+
+  <div class="editor" id="editor">
     <sl-tab-group>
-      <sl-tab slot="nav" panel="macros">Macros</sl-tab>
       <sl-tab slot="nav" panel="elements">Elements</sl-tab>
+      <sl-tab slot="nav" panel="macros">Macros</sl-tab>
       <sl-tab slot="nav" panel="presets">Presets</sl-tab>
-      <button slot="nav" class="trash">
+      <button slot="nav" class="trash" id="editor-trash">
         <iconify-icon icon="material-symbols-light:delete-outline" height="32"></iconify-icon>
       </button>
-      <button slot="nav" class="close">
+      <button slot="nav" class="close" id="editor-close">
         <iconify-icon icon="material-symbols-light:close-small" height="32"></iconify-icon>
       </button>
 

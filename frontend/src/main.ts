@@ -32,8 +32,17 @@ grid.on('removed', () => {
 GridStack.renderCB = (el, w) => {
   let button: Button = JSON.parse(w.content!);
 
+  el.addEventListener('click', _ => {
+    if (trash_mode) {
+      grid.removeWidget(el.parentElement!);
+      return;
+    }
+  });
+
   el.classList.add("tile");
-  // el.classList.add("trash-active");
+  if (trash_mode) {
+    el.classList.add('trash-active')
+  }
 
   el.style.animationDuration = `${(Math.random() * (0.20 - 0.33) + 0.33).toFixed(4)}s`
 
@@ -76,6 +85,41 @@ GridStack.renderCB = (el, w) => {
 
 // Setup
 loadPresets();
+
+// Editor
+
+let trash_mode = false;
+
+document.getElementById('editor-trash')?.addEventListener('click', ev => {
+  trash_mode = !trash_mode;
+
+  if (trash_mode) {
+    grid.disable();
+    for (const el of document.querySelectorAll('.grid-stack .tile')) {
+      el.classList.add('trash-active');
+    }
+    (ev.currentTarget as HTMLElement).classList.add('trash-active')
+  } else {
+    grid.enable();
+    for (const el of document.querySelectorAll('.grid-stack .tile')) {
+      el.classList.remove('trash-active');
+    }
+    (ev.currentTarget as HTMLElement).classList.remove('trash-active')
+  }
+});
+
+document.getElementById('editor-open')?.addEventListener('click', ev => {
+  (ev.currentTarget as HTMLButtonElement).disabled = true;
+  document.getElementById('editor')!.style.display = 'flex';
+  grid.setStatic(false);
+});
+
+document.getElementById('editor-close')?.addEventListener('click', ev => {
+  grid.setStatic(true);
+  document.getElementById('editor')!.style.display = 'none';
+  (document.getElementById('editor-open')! as HTMLButtonElement).disabled = false;
+});
+
 setupEditorElementsTab(v1_commands_json, v1_devices_json, grid);
 setupEditorPresetsTab((preset_name) => {
   fillOutPresets();
