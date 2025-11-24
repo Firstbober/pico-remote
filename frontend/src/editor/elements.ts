@@ -1,10 +1,36 @@
 import type { GridStack } from "gridstack";
 import { addButton, ButtonColor, commandToPretty, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, SupportedIcons, type Binds, type Button, type Macro, type Preset, type V1Commands, type V1Device, type V1Devices } from "../data";
+import { clearAllData, clearApiBase } from "../storage";
 
 export function setupEditorElementsTab(commands: V1Commands, devices: V1Devices, grid: GridStack) {
     setupCommandsTab(devices, commands, grid);
     setupSpacersTab(grid);
     setupPresetsTab(grid);
+
+    const clear_all_data = document.getElementById("editor-elements-advanced-clear-all-data")! as HTMLButtonElement
+    const clear_api_base = document.getElementById("editor-elements-advanced-clear-api-base")! as HTMLButtonElement
+    const export_data = document.getElementById("editor-elements-advanced-export-data")! as HTMLButtonElement
+    const import_data = document.getElementById("editor-elements-advanced-import-data")! as HTMLButtonElement
+
+    clear_all_data.addEventListener('click', _ => {
+        clearAllData();
+        alert("Cleared all data!");
+        window.location.reload()
+    });
+
+    clear_api_base.addEventListener('click', _ => {
+        clearApiBase()
+        alert("Cleared api!");
+        window.location.reload()
+    });
+
+    export_data.addEventListener('click', _ => {
+        window.location.reload()
+    });
+
+    import_data.addEventListener('click', _ => {
+        window.location.reload()
+    });
 }
 
 function setupPresetsTab(grid: GridStack) {
@@ -26,7 +52,7 @@ function setupPresetsTab(grid: GridStack) {
             tooltip: ''
         }, grid);
 
-        importPresetIntoGrid(grid, preset);
+        importPresetIntoGrid(grid, preset, true);
     });
 }
 
@@ -68,6 +94,8 @@ function setupCommandsTab(devices: V1Devices, commands: V1Commands, grid: GridSt
 
     device_select.addEventListener('sl-change', _ => {
         if (device_select.value == 'macros') {
+            console.log(getCurrentPreset());
+            console.log(getMacros())
             command_select.innerHTML = Object.entries(getMacros()).map(entry => {
                 return `<sl-option value="${entry[0]}">${entry[1].name}</sl-option>`;
             }).join('\n');

@@ -5,9 +5,14 @@ import { getCurrentPreset, getMacros, getPresetByName, importPresetIntoGrid, typ
 import { fillOutMacrosAndDevices, setupEditorMacrosTab } from "./macros";
 
 let trash_mode = false;
+let edit_mode = false;
 
 export function isTrashModeActive(): boolean {
     return trash_mode;
+}
+
+export function isEditModeActive(): boolean {
+    return edit_mode;
 }
 
 export function setupEditor(grid: GridStack, v1_commands_json: V1Commands, v1_devices_json: V1Devices) {
@@ -30,12 +35,14 @@ export function setupEditor(grid: GridStack, v1_commands_json: V1Commands, v1_de
     });
 
     document.getElementById('editor-open')?.addEventListener('click', ev => {
+        edit_mode = true;
         (ev.currentTarget as HTMLButtonElement).disabled = true;
         document.getElementById('editor')!.style.display = 'block';
         grid.setStatic(false);
     });
 
     document.getElementById('editor-close')?.addEventListener('click', _ => {
+        edit_mode = false;
         grid.setStatic(true);
         document.getElementById('editor')!.style.display = 'none';
         (document.getElementById('editor-open')! as HTMLButtonElement).disabled = false;

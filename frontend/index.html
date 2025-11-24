@@ -51,6 +51,7 @@
           <sl-tab slot="nav" panel="commands">Commands</sl-tab>
           <sl-tab slot="nav" panel="spacers">Spacers</sl-tab>
           <sl-tab slot="nav" panel="presets">Presets</sl-tab>
+          <sl-tab slot="nav" panel="advanced">Advanced</sl-tab>
 
           <sl-tab-panel name="commands">
             <div>
@@ -83,6 +84,15 @@
               </sl-select>
 
               <sl-button class="add" variant="primary" disabled id="editor-elements-presets-add">Add</sl-button>
+            </div>
+          </sl-tab-panel>
+          <sl-tab-panel name="advanced">
+            <div>
+              <sl-button id="editor-elements-advanced-clear-all-data">Clear all data (irreversible)</sl-button>
+              <sl-button id="editor-elements-advanced-clear-api-base">Change API IP/domain</sl-button>
+              <br>
+              <sl-button id="editor-elements-advanced-export-data">Export data</sl-button>
+              <sl-button id="editor-elements-advanced-import-data">Import data</sl-button>
             </div>
           </sl-tab-panel>
         </sl-tab-group>
@@ -132,7 +142,6 @@
         </div>
       </sl-tab-panel>
     </sl-tab-group>
-
   </div>
 
   <script type="module" src="/src/main.ts"></script>

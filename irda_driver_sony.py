@@ -64,5 +64,5 @@ class IRDADriverSony(IR):
 
             self._arr = self.data_stores[self.current_bits_size[1]]
             self._mva = memoryview(self._arr)
-
+        
         return super().transmit(addr, data, toggle, validate)

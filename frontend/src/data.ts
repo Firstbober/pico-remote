@@ -88,6 +88,7 @@ export function addButton(button: Button, grid: GridStack) {
     grid.addWidget({
         content: JSON.stringify(button)
     })
+    savePresetToStorage(currentPreset);
 }
 
 export function getCommandBind(device: number, command: number): number {
@@ -97,11 +98,13 @@ export function getCommandBind(device: number, command: number): number {
         }
     }
 
-    currentPreset.binds[currentPreset.bindCounter] = {
+    let id = Number(currentPreset.bindCounter)
+    currentPreset.binds[id] = {
         commands: [[device, command]]
     };
 
-    const id = currentPreset.bindCounter++;
+
+    currentPreset.bindCounter++;
     savePresetToStorage(currentPreset)
 
     return id;
@@ -121,7 +124,12 @@ export function getMacroByName(name: string): Macro {
 }
 
 export function getMacros(): Binds {
-    return Object.values(currentPreset.binds).filter((v) => v.name);
+    const b: Binds = {};
+    for(const bind of Object.entries(currentPreset.binds)) {
+        if(!bind[1].name) continue;
+        b[Number(bind[0])] = bind[1];
+    }
+    return b;
 }
 
 export function removeMacro(id: number) {
@@ -195,20 +203,16 @@ export function removePreset(name: string) {
     removePresetFromStorage(name);
 }
 
-export function importPresetIntoGrid(grid: GridStack, preset: Preset) {
+export function importPresetIntoGrid(grid: GridStack, preset: Preset, useOffset: boolean = false) {
     grid.load(preset.gridItems.map((item) => {
         const content: Button = JSON.parse(JSON.stringify(item.content));
-        if (getCurrentPreset().binds[content.bind] != undefined) {
-            content.bind = getCurrentPreset().bindCounter++;
-        }
-        getCurrentPreset().binds[content.bind] = getCurrentPreset().binds[content.bind]
 
         return {
             content: JSON.stringify(content),
             w: item.w,
             h: item.h,
             x: item.x,
-            y: item.y ? item.y + grid.getRow() : item.y,
+            y: useOffset ? item.y! + grid.getRow() : item.y,
             minW: item.minW,
             minH: item.minH,
             noResize: item.noResize

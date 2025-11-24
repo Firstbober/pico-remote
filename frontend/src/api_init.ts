@@ -27,6 +27,7 @@ export function setupApiInit(ready: (commands: V1Commands, devices: V1Devices) =
         api_loading.style.display = 'flex';
 
         setApiBase(`http://${api_url.value}/v1`);
+        console.log(API_BASE);
 
         try {
             const devices = await fetchDevices();

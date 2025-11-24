@@ -5,9 +5,10 @@ import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 
 import './style.css'
-import { ButtonColor, loadPresets, updatePreset, type Button } from './data';
-import { isTrashModeActive, setupEditor } from './editor';
+import { ButtonColor, getCurrentPreset, loadPresets, updatePreset, type Button } from './data';
+import { isEditModeActive, isTrashModeActive, setupEditor } from './editor';
 import { setupApiInit } from './api_init';
+import { sendExecutePacket } from './api';
 
 var grid = GridStack.init({
   column: 4,
@@ -38,6 +39,11 @@ GridStack.renderCB = (el, w) => {
       grid.removeWidget(el.parentElement!);
       return;
     }
+    if(isEditModeActive()) {
+      return;
+    }
+
+    sendExecutePacket([69, 42, 213], getCurrentPreset().binds[button.bind].commands);
   });
 
   el.classList.add("tile");

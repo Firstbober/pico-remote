@@ -1,3 +1,4 @@
+import time
 from commands import Command
 from device import Device
 from irda_driver_sony import IRDADriverSony
@@ -104,9 +105,11 @@ class DeviceSonyDVDPlayer(Device):
 
     def execute(self, command: Command):
         # Sony requires 3 repeats
+        cmd = self.commands[command[0]]
         for _ in range(3):
-            cmd = self.commands[command[0]]
             self.driver.transmit(cmd[3], cmd[0], cmd[2], cmd[1])
+            time.sleep_ms(45)
+
 
     def get_name(self):
         return self.name

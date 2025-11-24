@@ -1,5 +1,15 @@
-import { commandToPretty, createMacro, getCommandBind, getMacroByName, getMacros, removeMacro, searchForBlacklistedCharacters, type Binds, type ExecutableCommand, type Macro, type V1Commands, type V1Devices } from "../data";
+import { commandToPretty, createMacro, getCurrentPreset, getMacroByName, getMacros, removeMacro, searchForBlacklistedCharacters, type Binds, type ExecutableCommand, type Macro, type V1Commands, type V1Devices } from "../data";
 import Sortable from 'sortablejs';
+import { savePresetToStorage } from "../storage";
+
+
+function sanitizeMacroName(name: string): string {
+    return name.replaceAll(" ", "_");
+}
+
+function desanitizeMacroName(name: string): string {
+    return name.replaceAll("_", " ");
+}
 
 export function setupEditorMacrosTab(devices: V1Devices, commands: V1Commands) {
     const macro_remove = document.getElementById("editor-macros-remove")! as HTMLButtonElement;
@@ -29,7 +39,7 @@ export function setupEditorMacrosTab(devices: V1Devices, commands: V1Commands) {
         macro_command_add.disabled = !(macro_command_device.value && macro_command_command.value && macro_select.value);
 
         macro_commands.innerHTML = '';
-        for (const command of getMacroByName(macro_select.value!).commands) {
+        for (const command of getMacroByName(sanitizeMacroName(macro_select.value!)).commands) {
             addCommandToMacroCommandsEditor(command[0], command[1])
         }
         addClickForRemoveButtons();
@@ -69,7 +79,7 @@ export function setupEditorMacrosTab(devices: V1Devices, commands: V1Commands) {
                 alert(errorMessage);
         } while (errorMessage != '')
 
-        createMacro(name);
+        createMacro(sanitizeMacroName(name));
         fillOutMacros(macro_select, getMacros())
     });
 
@@ -84,7 +94,7 @@ export function setupEditorMacrosTab(devices: V1Devices, commands: V1Commands) {
 
         addCommandToMacroCommandsEditor(device, command);
         addClickForRemoveButtons();
-        
+
         updatePresetMacroCommands();
     });
 
@@ -97,7 +107,8 @@ export function setupEditorMacrosTab(devices: V1Devices, commands: V1Commands) {
             commands.push([Number(s[1]), Number(s[2])]);
         }
 
-        getMacroByName(macro_select.value!).commands = commands;
+        getMacroByName(sanitizeMacroName(macro_select.value!)).commands = commands;
+        savePresetToStorage(getCurrentPreset());
     }
 
     function addClickForRemoveButtons() {
@@ -143,6 +154,6 @@ export function fillOutMacrosAndDevices(macro: Binds, devices: V1Devices) {
 
 function fillOutMacros(macro_select: HTMLSelectElement, macros: Binds) {
     macro_select.innerHTML = Object.entries(macros).map((entry) => {
-        return `<sl-option value="${entry[1].name}">${entry[1].name}</sl-option>`;
+        return `<sl-option value="${entry[1].name}">${desanitizeMacroName(entry[1].name!)}</sl-option>`;
     }).join('\n');
 }
