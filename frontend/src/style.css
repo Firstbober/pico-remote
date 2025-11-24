@@ -173,11 +173,16 @@ body {
 .editor #macro-editor-elements {
   overflow-y: auto;
   max-height: 20vh;
+  min-height: 20vh;
   background-color: #242424;
   border-radius: 4px;
   border: 1px solid gray;
   list-style: none;
   padding: 0;
+}
+
+.editor #macro-editor-elements .handle {
+  cursor: grab;
 }
 
 .editor #macro-editor-elements li:nth-child(2n) {
@@ -196,6 +201,7 @@ body {
   max-width: 70vw;
   overflow: hidden;
   white-space: nowrap;
+  user-select: none;
 }
 
 .editor #macro-editor-elements li .remove {

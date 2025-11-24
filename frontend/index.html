@@ -70,107 +70,23 @@
       <sl-tab-panel name="macros">
         <div>
           <div class="macro-selector">
-            <button>
+            <button id="editor-macros-remove" disabled>
               <iconify-icon icon="material-symbols-light:delete-outline" height="24"></iconify-icon>
             </button>
-            <sl-select placement="top">
-              <sl-option value="option-1">Option 1</sl-option>
-              <sl-option value="option-2">Option 2</sl-option>
-              <sl-option value="option-3">Option 3</sl-option>
-              <sl-option value="option-4">Option 4</sl-option>
-              <sl-option value="option-5">Option 5</sl-option>
-              <sl-option value="option-6">Option 6</sl-option>
+            <sl-select placement="top" id="editor-macros-select">
             </sl-select>
-            <button>
+            <button id="editor-macros-add">
               <iconify-icon icon="material-symbols-light:add" height="24" part="label"></iconify-icon>
             </button>
           </div>
           <ul id="macro-editor-elements">
-            <li>
-              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
-                class="handle"></iconify-icon>
-              <span>
-                aaaaaaaaaaaaaaaaaaaaaaa
-              </span>
-              <span>
-                Sony DVD aaaaaaaaaaaaaaaa
-              </span>
-              <button class="remove">
-                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
-              </button>
-            </li>
-            <li>
-              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
-                class="handle"></iconify-icon>
-              <span>
-                aaaaaaaaaaaaaaaaaaaaaaa
-              </span>
-              <span>
-                Sony DVD aaaaaaaaaaaaaaaa
-              </span>
-              <button class="remove">
-                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
-              </button>
-            </li>
-            <li>
-              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
-                class="handle"></iconify-icon>
-              cccc
-              <sl-divider vertical></sl-divider>
-              Sony DVD
-              <button class="remove">
-                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
-              </button>
-            </li>
-            <li>
-              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
-                class="handle"></iconify-icon>
-              dddd
-              <sl-divider vertical></sl-divider>
-              Sony Receiver
-              <button class="remove">
-                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
-              </button>
-            </li>
-            <li>
-              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
-                class="handle"></iconify-icon>
-              eeee
-              <sl-divider vertical></sl-divider>
-              Sony Receiver
-              <button class="remove">
-                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
-              </button>
-            </li>
-            <li>
-              <iconify-icon icon="material-symbols-light:drag-handle" width="24" height="24"
-                class="handle"></iconify-icon>
-              ffff
-              <sl-divider vertical></sl-divider>
-              Sony Receiver
-              <button class="remove">
-                <iconify-icon icon="material-symbols-light:close" width="24" height="24"></iconify-icon>
-              </button>
-            </li>
           </ul>
           <div class="command-selector">
-            <sl-select placement="top">
-              <sl-option value="option-1">Option 1</sl-option>
-              <sl-option value="option-2">Option 2</sl-option>
-              <sl-option value="option-3">Option 3</sl-option>
-              <sl-option value="option-4">Option 4</sl-option>
-              <sl-option value="option-5">Option 5</sl-option>
-              <sl-option value="option-6">Option 6</sl-option>
+            <sl-select placement="top" id="editor-macros-devices">
             </sl-select>
-            <sl-select placement="top">
-              <sl-option value="option-1">Option 1</sl-option>
-              <sl-option value="option-2">Option 2</sl-option>
-              <sl-option value="option-3">Option 3</sl-option>
-              <sl-option value="option-4">Option 4</sl-option>
-              <sl-option value="option-5">Option 5</sl-option>
-              <sl-option value="option-6">Option 6</sl-option>
+            <sl-select placement="top" id="editor-macros-commands">
             </sl-select>
-            <button>
+            <button id="editor-macros-add-command" disabled>
               <iconify-icon icon="material-symbols-light:add" height="24" part="label"></iconify-icon>
             </button>
           </div>

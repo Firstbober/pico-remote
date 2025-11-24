@@ -3,12 +3,12 @@ import { GridStack } from 'gridstack';
 import "iconify-icon";
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
-import Sortable from 'sortablejs';
 
 import './style.css'
-import { addButton, ButtonColor, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, loadPresets, updatePreset, v1_commands_json, v1_devices_json, type Button } from './data';
+import { ButtonColor, getMacros, getPresetByName, importPresetIntoGrid, loadPresets, updatePreset, v1_commands_json, v1_devices_json, type Button } from './data';
 import { fillOutCommandsAndDevices, fillOutPresets, setupEditorElementsTab } from './editor/elements';
 import { setupEditorPresetsTab } from './editor/presets';
+import { fillOutMacrosAndDevices, setupEditorMacrosTab } from './editor/macros';
 
 var grid = GridStack.init({
   column: 4,
@@ -74,16 +74,6 @@ GridStack.renderCB = (el, w) => {
   w.minH = 2;
 }
 
-setTimeout(() => {
-  console.log(grid.getGridItems())
-}, 10000);
-
-var el = document.getElementById('macro-editor-elements');
-var sortable = Sortable.create(el!, {
-  handle: '.handle',
-  animation: 150
-});
-
 // Setup
 loadPresets();
 setupEditorElementsTab(v1_commands_json, v1_devices_json, grid);
@@ -93,7 +83,9 @@ setupEditorPresetsTab((preset_name) => {
   grid.removeAll(true, false);
   importPresetIntoGrid(grid, getPresetByName(preset_name)!);
 });
+setupEditorMacrosTab(v1_devices_json, v1_commands_json);
 
 // Fill
 fillOutCommandsAndDevices(v1_devices_json);
 fillOutPresets();
+fillOutMacrosAndDevices(getMacros(), v1_devices_json);

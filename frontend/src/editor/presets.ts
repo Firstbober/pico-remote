@@ -1,4 +1,4 @@
-import { addPreset, getCurrentPreset, getPresetByName, getPresetNames, removePreset, setCurrentPreset } from "../data";
+import { addPreset, getCurrentPreset, getPresetByName, getPresetNames, removePreset, searchForBlacklistedCharacters, setCurrentPreset } from "../data";
 
 export function setupEditorPresetsTab(onPresetChange: (name: string) => void) {
     const select_preset = document.getElementById("editor-presets-preset")! as HTMLSelectElement;
@@ -43,14 +43,7 @@ export function setupEditorPresetsTab(onPresetChange: (name: string) => void) {
     });
 
     button_create_preset.addEventListener('click', _ => {
-        const blacklist = ['\'', ';', '{', '}', '"', '`', ',', '<', '>', '\\', '\n', '\t', '\r'];
-        let errorMessage = ``;
-
-        for(const blocked of blacklist) {
-            if(input_new_preset_name.value.includes(blocked)) {
-                errorMessage += `Found '${blocked}' in preset name, which is not allowed.\n`;
-            }
-        }
+        let errorMessage = searchForBlacklistedCharacters(input_new_preset_name.value);
 
         if(errorMessage == ``) {
             if(!addPreset(input_new_preset_name.value)) {

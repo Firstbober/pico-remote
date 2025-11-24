@@ -1,5 +1,5 @@
 import type { GridStack } from "gridstack";
-import { addButton, ButtonColor, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, SupportedIcons, type Binds, type Button, type Macro, type Preset, type V1Commands, type V1Device, type V1Devices } from "../data";
+import { addButton, ButtonColor, commandToPretty, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, SupportedIcons, type Binds, type Button, type Macro, type Preset, type V1Commands, type V1Device, type V1Devices } from "../data";
 
 export function setupEditorElementsTab(commands: V1Commands, devices: V1Devices, grid: GridStack) {
     setupCommandsTab(devices, commands, grid);
@@ -115,14 +115,6 @@ function setupCommandsTab(devices: V1Devices, commands: V1Commands, grid: GridSt
             tooltip: tooltip
         }, grid);
     });
-}
-
-function commandToPretty(device: V1Device, command: number, commands: V1Commands) {
-    return device.annotations[command] != undefined ?
-        device.annotations[command] :
-        getKeyByValue(commands, command).split("_").map((v: string) => {
-            return v[0] + v.slice(1).toLocaleLowerCase();
-        }).join(" ");
 }
 
 export function fillOutCommandsAndDevices(devices: V1Devices) {
