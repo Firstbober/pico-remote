@@ -13,6 +13,24 @@
 </head>
 
 <body>
+  <div class="api-init">
+    <div class="loading" id="api-init-loading">
+      <sl-spinner style="font-size: 3rem;"></sl-spinner>
+    </div>
+
+    <h2>Enter IP address or domain for pico remote server</h2>
+
+    <sl-alert variant="danger" id="api-init-alert">
+      <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+      <strong>We can't connect to API or it's invalid</strong><br />
+      Check if your IP/domain is valid, or you are running matching version of this panel and API
+    </sl-alert>
+
+    <sl-input id="api-init-url" placeholder="ip/domain"></sl-input>
+
+    <sl-button variant="primary" disabled id="api-init-next">Next</sl-button>
+  </div>
+
   <div class="grid-stack"></div>
   <sl-button style="width: 100%; margin-top: 5em;" disabled id="editor-open">Edit</sl-button>
 
@@ -108,7 +126,7 @@
           <sl-button variant="primary" disabled id="editor-presets-set-preset" disabled>Set preset</sl-button>
 
           <sl-divider style="--color: gray;"></sl-divider>
-          
+
           <sl-input label="Create new preset" id="editor-presets-new-preset-name"></sl-input>
           <sl-button variant="primary" disabled id="editor-presets-create-preset" disabled>Create</sl-button>
         </div>

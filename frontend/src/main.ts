@@ -9,6 +9,8 @@ import { ButtonColor, getMacros, getPresetByName, importPresetIntoGrid, loadPres
 import { fillOutCommandsAndDevices, fillOutPresets, setupEditorElementsTab } from './editor/elements';
 import { setupEditorPresetsTab } from './editor/presets';
 import { fillOutMacrosAndDevices, setupEditorMacrosTab } from './editor/macros';
+import { isTrashModeActive, setupEditor } from './editor';
+import { setupApiInit } from './api_init';
 
 var grid = GridStack.init({
   column: 4,
@@ -27,20 +29,20 @@ grid.on('removed', () => {
   updatePreset(grid);
 })
 
-// grid.setStatic(true);
+grid.setStatic(true);
 
 GridStack.renderCB = (el, w) => {
   let button: Button = JSON.parse(w.content!);
 
   el.addEventListener('click', _ => {
-    if (trash_mode) {
+    if (isTrashModeActive()) {
       grid.removeWidget(el.parentElement!);
       return;
     }
   });
 
   el.classList.add("tile");
-  if (trash_mode) {
+  if (isTrashModeActive()) {
     el.classList.add('trash-active')
   }
 
@@ -84,52 +86,8 @@ GridStack.renderCB = (el, w) => {
 }
 
 // Setup
-loadPresets();
 
-// Editor
-
-let trash_mode = false;
-
-document.getElementById('editor-trash')?.addEventListener('click', ev => {
-  trash_mode = !trash_mode;
-
-  if (trash_mode) {
-    grid.disable();
-    for (const el of document.querySelectorAll('.grid-stack .tile')) {
-      el.classList.add('trash-active');
-    }
-    (ev.currentTarget as HTMLElement).classList.add('trash-active')
-  } else {
-    grid.enable();
-    for (const el of document.querySelectorAll('.grid-stack .tile')) {
-      el.classList.remove('trash-active');
-    }
-    (ev.currentTarget as HTMLElement).classList.remove('trash-active')
-  }
+setupApiInit(() => {
+  loadPresets();
+  setupEditor(grid, v1_commands_json, v1_devices_json);
 });
-
-document.getElementById('editor-open')?.addEventListener('click', ev => {
-  (ev.currentTarget as HTMLButtonElement).disabled = true;
-  document.getElementById('editor')!.style.display = 'flex';
-  grid.setStatic(false);
-});
-
-document.getElementById('editor-close')?.addEventListener('click', ev => {
-  grid.setStatic(true);
-  document.getElementById('editor')!.style.display = 'none';
-  (document.getElementById('editor-open')! as HTMLButtonElement).disabled = false;
-});
-
-setupEditorElementsTab(v1_commands_json, v1_devices_json, grid);
-setupEditorPresetsTab((preset_name) => {
-  fillOutPresets();
-
-  grid.removeAll(true, false);
-  importPresetIntoGrid(grid, getPresetByName(preset_name)!);
-});
-setupEditorMacrosTab(v1_devices_json, v1_commands_json);
-
-// Fill
-fillOutCommandsAndDevices(v1_devices_json);
-fillOutPresets();
-fillOutMacrosAndDevices(getMacros(), v1_devices_json);
