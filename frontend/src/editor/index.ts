@@ -1,7 +1,7 @@
 import type { GridStack } from "gridstack";
 import { fillOutCommandsAndDevices, fillOutPresets, setupEditorElementsTab } from "./elements";
 import { setupEditorPresetsTab } from "./presets";
-import { getMacros, getPresetByName, importPresetIntoGrid, type V1Commands, type V1Devices } from "../data";
+import { getCurrentPreset, getMacros, getPresetByName, importPresetIntoGrid, type V1Commands, type V1Devices } from "../data";
 import { fillOutMacrosAndDevices, setupEditorMacrosTab } from "./macros";
 
 let trash_mode = false;
@@ -11,7 +11,6 @@ export function isTrashModeActive(): boolean {
 }
 
 export function setupEditor(grid: GridStack, v1_commands_json: V1Commands, v1_devices_json: V1Devices) {
-
     document.getElementById('editor-trash')?.addEventListener('click', ev => {
         trash_mode = !trash_mode;
 
@@ -32,11 +31,11 @@ export function setupEditor(grid: GridStack, v1_commands_json: V1Commands, v1_de
 
     document.getElementById('editor-open')?.addEventListener('click', ev => {
         (ev.currentTarget as HTMLButtonElement).disabled = true;
-        document.getElementById('editor')!.style.display = 'flex';
+        document.getElementById('editor')!.style.display = 'block';
         grid.setStatic(false);
     });
 
-    document.getElementById('editor-close')?.addEventListener('click', ev => {
+    document.getElementById('editor-close')?.addEventListener('click', _ => {
         grid.setStatic(true);
         document.getElementById('editor')!.style.display = 'none';
         (document.getElementById('editor-open')! as HTMLButtonElement).disabled = false;
@@ -55,4 +54,5 @@ export function setupEditor(grid: GridStack, v1_commands_json: V1Commands, v1_de
     fillOutCommandsAndDevices(v1_devices_json);
     fillOutPresets();
     fillOutMacrosAndDevices(getMacros(), v1_devices_json);
+    importPresetIntoGrid(grid, getCurrentPreset());
 }

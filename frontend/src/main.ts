@@ -5,16 +5,15 @@ import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 
 import './style.css'
-import { ButtonColor, getMacros, getPresetByName, importPresetIntoGrid, loadPresets, updatePreset, v1_commands_json, v1_devices_json, type Button } from './data';
-import { fillOutCommandsAndDevices, fillOutPresets, setupEditorElementsTab } from './editor/elements';
-import { setupEditorPresetsTab } from './editor/presets';
-import { fillOutMacrosAndDevices, setupEditorMacrosTab } from './editor/macros';
+import { ButtonColor, loadPresets, updatePreset, type Button } from './data';
 import { isTrashModeActive, setupEditor } from './editor';
 import { setupApiInit } from './api_init';
 
 var grid = GridStack.init({
   column: 4,
-  cellHeight: ((document.body.clientWidth / 4) - 5) / 2
+  cellHeight: ((document.body.clientWidth / 4) - 5) / 2,
+  minRow: 32,
+  float: true
 });
 
 grid.on('added', () => {
@@ -87,7 +86,7 @@ GridStack.renderCB = (el, w) => {
 
 // Setup
 
-setupApiInit(() => {
+setupApiInit((v1_commands, v1_devices) => {
   loadPresets();
-  setupEditor(grid, v1_commands_json, v1_devices_json);
+  setupEditor(grid, v1_commands, v1_devices);
 });

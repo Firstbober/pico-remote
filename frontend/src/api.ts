@@ -1,6 +1,6 @@
 import type { ExecutableCommand, V1Commands, V1Devices } from "./data";
 
-let API_BASE = "";
+export let API_BASE = "";
 
 export function setApiBase(base: string) {
     API_BASE = base;
