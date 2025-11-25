@@ -2,3 +2,4 @@ config.py
 typings
 micropython_ir
 frontend-old
+__pycache__
