@@ -1,36 +1,62 @@
 import type { GridStack } from "gridstack";
 import { addButton, ButtonColor, commandToPretty, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, type Binds, type V1Commands, type V1Devices } from "../data";
-import { clearAllData, clearApiBase } from "../storage";
+import { clearAllData, clearApiBase, exportStorageToString, importStorageFromString } from "../storage";
 import { IconMappings } from "../icon_mappings";
 
 export function setupEditorElementsTab(commands: V1Commands, devices: V1Devices, grid: GridStack) {
     setupCommandsTab(devices, commands, grid);
     setupSpacersTab(grid);
     setupPresetsTab(grid);
+    setupAdvancedTab();
+}
 
-    const clear_all_data = document.getElementById("editor-elements-advanced-clear-all-data")! as HTMLButtonElement
-    const clear_api_base = document.getElementById("editor-elements-advanced-clear-api-base")! as HTMLButtonElement
-    const export_data = document.getElementById("editor-elements-advanced-export-data")! as HTMLButtonElement
-    const import_data = document.getElementById("editor-elements-advanced-import-data")! as HTMLButtonElement
+function setupAdvancedTab() {
+    const clear_all_data = document.getElementById("editor-elements-advanced-clear-all-data")! as HTMLButtonElement;
+    const clear_api_base = document.getElementById("editor-elements-advanced-clear-api-base")! as HTMLButtonElement;
+    const export_data = document.getElementById("editor-elements-advanced-export-data")! as HTMLButtonElement;
+    const import_data = document.getElementById("editor-elements-advanced-import-data")! as HTMLButtonElement;
 
     clear_all_data.addEventListener('click', _ => {
         clearAllData();
         alert("Cleared all data!");
-        window.location.reload()
+        window.location.reload();
     });
 
     clear_api_base.addEventListener('click', _ => {
-        clearApiBase()
+        clearApiBase();
         alert("Cleared api!");
-        window.location.reload()
+        window.location.reload();
     });
 
     export_data.addEventListener('click', _ => {
-        window.location.reload()
+        const export_data = exportStorageToString()
+
+        const blob = new Blob([export_data], { type: 'application/json' });
+        const fileURL = URL.createObjectURL(blob);
+
+        const downloadLink = document.createElement('a');
+        downloadLink.href = fileURL;
+        downloadLink.download = 'pico-remote-data-export.json';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+        URL.revokeObjectURL(fileURL);
+
+        alert('Exported!');
+
+        window.location.reload();
     });
 
     import_data.addEventListener('click', _ => {
-        window.location.reload()
+        let input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/json'
+        input.onchange = async _ => {
+            importStorageFromString(await input.files![0].text());
+            alert('Imported!')
+            window.location.reload();
+        };
+        input.click();
     });
 }
 
@@ -95,8 +121,6 @@ function setupCommandsTab(devices: V1Devices, commands: V1Commands, grid: GridSt
 
     device_select.addEventListener('sl-change', _ => {
         if (device_select.value == 'macros') {
-            console.log(getCurrentPreset());
-            console.log(getMacros())
             command_select.innerHTML = Object.entries(getMacros()).map(entry => {
                 return `<sl-option value="${entry[0]}">${entry[1].name}</sl-option>`;
             }).join('\n');

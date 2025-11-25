@@ -75,7 +75,6 @@ export function getKeyByValue(object: any, value: any): any {
 }
 
 export function addButton(button: Button, grid: GridStack) {
-    console.log(grid.getRow())
     grid.addWidget({
         content: JSON.stringify(button),
     })

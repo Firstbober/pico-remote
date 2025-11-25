@@ -116,6 +116,30 @@ export function clearApiBase() {
     localStorage.removeItem(LS_V1_DEVICES);
 }
 
-export function importStorageFromString() { }
+export function importStorageFromString(storage: string) {
+    const data = JSON.parse(storage);
 
-export function exportStorageToStorage() { }
+    localStorage.setItem(LS_API_BASE, data[LS_API_BASE]);
+    localStorage.setItem(LS_PRESETS, data[LS_PRESETS]);
+    localStorage.setItem(LS_V1_COMMANDS, data[LS_V1_COMMANDS]);
+    localStorage.setItem(LS_V1_DEVICES, data[LS_V1_DEVICES]);
+
+    for (const preset of getPresetsFromStorage()) {
+        localStorage.setItem(`${LS_PRESETS}.${preset.name}`, data[`${LS_PRESETS}.${preset.name}`]);
+    }
+}
+
+export function exportStorageToString(): string {
+    const data: any = {
+        [LS_API_BASE]: localStorage.getItem(LS_API_BASE),
+        [LS_PRESETS]: localStorage.getItem(LS_PRESETS),
+        [LS_V1_COMMANDS]: localStorage.getItem(LS_V1_COMMANDS),
+        [LS_V1_DEVICES]: localStorage.getItem(LS_V1_DEVICES),
+    };
+
+    for (const preset of getPresetsFromStorage()) {
+        data[`${LS_PRESETS}.${preset.name}`] = localStorage.getItem(`${LS_PRESETS}.${preset.name}`);
+    }
+
+    return JSON.stringify(data);
+}
