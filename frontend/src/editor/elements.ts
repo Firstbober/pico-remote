@@ -1,6 +1,7 @@
 import type { GridStack } from "gridstack";
-import { addButton, ButtonColor, commandToPretty, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, SupportedIcons, type Binds, type Button, type Macro, type Preset, type V1Commands, type V1Device, type V1Devices } from "../data";
+import { addButton, ButtonColor, commandToPretty, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, type Binds, type V1Commands, type V1Devices } from "../data";
 import { clearAllData, clearApiBase } from "../storage";
+import { IconMappings } from "../icon_mappings";
 
 export function setupEditorElementsTab(commands: V1Commands, devices: V1Devices, grid: GridStack) {
     setupCommandsTab(devices, commands, grid);
@@ -114,6 +115,8 @@ function setupCommandsTab(devices: V1Devices, commands: V1Commands, grid: GridSt
     });
 
     command_select.addEventListener('sl-change', _ => {
+        icon_select.value = IconMappings[(getKeyByValue(commands, Number(command_select.value!)) as string) as keyof typeof IconMappings];
+
         checkIfAddShouldBeEnabled();
     });
 
@@ -133,14 +136,14 @@ function setupCommandsTab(devices: V1Devices, commands: V1Commands, grid: GridSt
             : getCommandBind(commandId, Number(command_select.value));
         const tooltip = device_select.value == 'macros'
             ? getMacros()[Number(command_select.value) as keyof Binds].name
-            : commandToPretty(devices[Number(device_select.value)], Number(command_select.value), commands);
+            : commandToPretty(devices[Number(device_select.value)], Number(command_select.value), commands) + ' | ' + devices[Number(device_select.value)].name + ' | ' + devices[Number(device_select.value)].description;
 
         addButton({
             icon: icon_select.value,
             bind: bind,
             color: ButtonColor[color_select.value as keyof typeof ButtonColor],
             spacer: false,
-            tooltip: tooltip
+            tooltip: tooltip!
         }, grid);
     });
 }
@@ -161,8 +164,8 @@ export function fillOutCommandsAndDevices(devices: V1Devices) {
         return `<sl-option value="${color}">${color}</sl-option>`;
     }).join('\n');
 
-    icon_select.innerHTML = SupportedIcons.map((icon) => {
-        return `<sl-option value="${icon}"><div class="icon-select"><iconify-icon icon="${icon}" height="32"></iconify-icon> ${icon.split(":")[1].split("-").join(" ")}</div></sl-option>`;
+    icon_select.innerHTML = Object.entries(IconMappings).map((icon) => {
+        return `<sl-option value="${icon[1]}"><div class="icon-select"><iconify-icon icon="${icon[1]}" height="32"></iconify-icon> ${icon[1].split(":")[1].split("-").join(" ")}</div></sl-option>`;
     }).join('\n');
 }
 

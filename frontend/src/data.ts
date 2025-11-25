@@ -74,19 +74,10 @@ export function getKeyByValue(object: any, value: any): any {
     return Object.keys(object).find(key => object[key] === value);
 }
 
-export const SupportedIcons = [
-    'material-symbols-light:power-settings-new',
-    'material-symbols-light:volume-up-outline',
-    'material-symbols-light:volume-down-outline',
-    'material-symbols-light:arrow-left-alt',
-    'material-symbols-light:arrow-right-alt',
-    'material-symbols-light:menu',
-    'cbi:dvd',
-];
-
 export function addButton(button: Button, grid: GridStack) {
+    console.log(grid.getRow())
     grid.addWidget({
-        content: JSON.stringify(button)
+        content: JSON.stringify(button),
     })
     savePresetToStorage(currentPreset);
 }
