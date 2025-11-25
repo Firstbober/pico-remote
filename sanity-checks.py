@@ -44,9 +44,11 @@ checks = [check_icon_mappings()]
 
 checks_failed = False
 for check in checks:
-    if len(checks) > 0:
+    if len(check) > 0:
         print('\n'.join(check))
         checks_failed = True
 
 if checks_failed:
     exit(1)
+
+exit(0)
