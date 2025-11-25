@@ -1,0 +1,93 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Trigger on release creation
+  release:
+    types: [published]
+  
+  # Allow manual trigger from Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Sanity check job
+  sanity-check:
+    name: Run Sanity Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Run sanity checks
+        id: sanity
+        run: |
+          echo "Running sanity checks..."
+          python sanity-checks.py
+          exit_code=$?
+          if [ $exit_code -ne 0 ]; then
+            echo "❌ Sanity checks failed!"
+            exit 1
+          fi
+          echo "✅ Sanity checks passed!"
+  
+  # Build and deploy job
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    needs: sanity-check
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+      
+      - name: Build Vite project
+        working-directory: ./frontend
+        run: npm run build
+        env:
+          BASE_URL: /${{ github.event.repository.name }}/
+          NODE_ENV: production
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './frontend/dist'
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      
+      - name: Output deployment URL
+        run: |
+          echo "🚀 Deployment successful!"
+          echo "📦 Published to: ${{ steps.deployment.outputs.page_url }}"
