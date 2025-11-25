@@ -73,7 +73,7 @@ export async function sendExecutePacket(header: [number, number, number], rows: 
         const res = await fetch(`${API_BASE}/execute`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/octet-stream"
+                "Content-Type": "text/plain"
             },
             body: packet
         });

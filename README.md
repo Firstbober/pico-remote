@@ -47,7 +47,7 @@ Pretty much everything you need to know about the web interface.
 - [ ] **Handle different devices when chaning API** - Right now after changing the API, the device order will be the same which might cause issues. We should prompt user to select the devices again.
 - [ ] **Power management** -  I am using my pico from wall, but it would be useful to reduce energy usage on battery
 - [ ] **Better device support** - Currently classes `DeviceSonyAVReceiver` and `DeviceSonyDVDPlayer` are basically equivalent to what my hardware supports (STR-DE495 and DVP-NS330), for larger and better support a better way needs to be found
-- [ ] **Async HTTP server** - Current web server is fully synchronous, and the requests may not go through sometimes, not a large issue but definitely good QOL one
+- [X] **Async HTTP server** - Current web server is fully synchronous, and the requests may not go through sometimes, not a large issue but definitely good QOL one
 
 ## Contributing
 
