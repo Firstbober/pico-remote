@@ -124,8 +124,8 @@ export function importStorageFromString(storage: string) {
     localStorage.setItem(LS_V1_COMMANDS, data[LS_V1_COMMANDS]);
     localStorage.setItem(LS_V1_DEVICES, data[LS_V1_DEVICES]);
 
-    for (const preset of getPresetsFromStorage()) {
-        localStorage.setItem(`${LS_PRESETS}.${preset.name}`, data[`${LS_PRESETS}.${preset.name}`]);
+    for (const preset of JSON.parse(data[LS_PRESETS])) {
+        localStorage.setItem(`${LS_PRESETS}.${preset}`, data[`${LS_PRESETS}.${preset}`]);
     }
 }
 

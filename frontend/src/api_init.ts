@@ -52,7 +52,8 @@ export function setupApiInit(ready: (commands: V1Commands, devices: V1Devices) =
     });
 
     api_demo_mode.addEventListener('click', _ => {
-        importStorageFromString(JSON.stringify(PicoRemoteDemoData));
+        const d = JSON.stringify(PicoRemoteDemoData);
+        importStorageFromString(d);
         window.location.reload()
     })
 }
