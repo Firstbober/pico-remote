@@ -68,7 +68,7 @@ jobs:
       
       - name: Build Vite project
         working-directory: ./frontend
-        run: bun run build
+        run: bun run build -- --mode production --base /pico-remote/
         env:
           BASE_URL: /pico-remote/
           NODE_ENV: production
