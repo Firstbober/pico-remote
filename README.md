@@ -37,9 +37,15 @@ Pretty much everything you need to know about the web interface.
 ## Requirements
 
 - Raspberry Pi Pico with WIFI
-- IR LED (940nm recommended)
+- IR LED (940nm recommended, optional if you want to use GPIO)
 - WiFi network
 - Modern web browser
+
+## TODO 
+
+- [ ] **Power management** -  I am using my pico from wall, but it would be useful to reduce energy usage on battery
+- [ ] **Better device support** - Currently classes `DeviceSonyAVReceiver` and `DeviceSonyDVDPlayer` are basically equivalent to what my hardware supports (STR-DE495 and DVP-NS330), for larger and better support a better way needs to be found
+- [ ] **Async HTTP server** - Current web server is fully synchronous, and the requests may not go through sometimes, not a large issue but definitely good QOL one
 
 ## Contributing
 
