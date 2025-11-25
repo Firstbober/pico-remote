@@ -1,5 +1,5 @@
 import type { GridStack } from "gridstack";
-import { addButton, ButtonColor, commandToPretty, getCommandBind, getCurrentPreset, getKeyByValue, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, type Binds, type V1Commands, type V1Devices } from "../data";
+import { addButton, ButtonColor, commandToPretty, getCommandBind, getKeyByValue, getMacros, getPresetByName, getPresetNames, importPresetIntoGrid, type Binds, type V1Commands, type V1Devices } from "../data";
 import { clearAllData, clearApiBase, exportStorageToString, importStorageFromString } from "../storage";
 import { IconMappings } from "../icon_mappings";
 

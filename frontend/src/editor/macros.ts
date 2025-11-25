@@ -1,4 +1,4 @@
-import { commandToPretty, createMacro, getCurrentPreset, getMacroByName, getMacros, removeMacro, searchForBlacklistedCharacters, type Binds, type ExecutableCommand, type Macro, type V1Commands, type V1Devices } from "../data";
+import { commandToPretty, createMacro, getCurrentPreset, getMacroByName, getMacros, removeMacro, searchForBlacklistedCharacters, type Binds, type ExecutableCommand, type V1Commands, type V1Devices } from "../data";
 import Sortable from 'sortablejs';
 import { savePresetToStorage } from "../storage";
 
