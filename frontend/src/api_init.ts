@@ -1,12 +1,14 @@
 import { API_BASE, fetchCommands, fetchDevices, setApiBase } from "./api";
 import type { V1Commands, V1Devices } from "./data";
-import { getApiBaseFromStorage, getCommandsFromStorage, getDevicesFromStorage, saveApiBaseToStorage, saveCommandsToStorage, saveDevicesToStorage } from "./storage";
+import { PicoRemoteDemoData } from "./pico-remote-demo-data";
+import { getApiBaseFromStorage, getCommandsFromStorage, getDevicesFromStorage, importStorageFromString, saveApiBaseToStorage, saveCommandsToStorage, saveDevicesToStorage } from "./storage";
 
 export function setupApiInit(ready: (commands: V1Commands, devices: V1Devices) => void) {
     const api_alert = (document.getElementById('api-init-alert')! as any);
     const api_url = (document.getElementById('api-init-url')! as HTMLInputElement);
     const api_next_button = (document.getElementById('api-init-next')! as HTMLButtonElement);
     const api_loading = (document.getElementById('api-init-loading')! as HTMLElement);
+    const api_demo_mode = (document.getElementById('api-init-demo')! as HTMLButtonElement);
 
     api_alert.open = false;
 
@@ -48,4 +50,9 @@ export function setupApiInit(ready: (commands: V1Commands, devices: V1Devices) =
 
         api_loading.style.display = 'none';
     });
+
+    api_demo_mode.addEventListener('click', _ => {
+        importStorageFromString(JSON.stringify(PicoRemoteDemoData));
+        window.location.reload()
+    })
 }
