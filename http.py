@@ -50,13 +50,13 @@ def handle_endpoints(url, method, cl, cors, raw):
                 continue
 
             endpoint.handler(url, lambda code, response: (
-                cl.send('HTTP/1.0 ' + code + '\r\nContent-type: application/json\r\n\r\n'),
+                cl.send('HTTP/1.0 ' + code + '\r\nContent-type: application/json\r\nAccess-Control-Allow-Headers: *\r\nAccess-Control-Allow-Origin: *\r\n\r\n'),
                 cl.send(response),
                 cl.close()
             ), raw)
             return
 
-    cl.send('HTTP/1.0 404 Not Found\r\nContent-type: application/json\r\n\r\n')
+    cl.send('HTTP/1.0 404 Not Found\r\nContent-type: application/json\r\nAccess-Control-Allow-Headers: *\r\nAccess-Control-Allow-Origin: *\r\n\r\n')
     cl.close()
 
 # Tune these for your use case
